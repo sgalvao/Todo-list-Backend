@@ -2,24 +2,29 @@ import { gql } from "apollo-server-express";
 
 export default gql`
   type Task {
-    id: ID!
-    title: String!
+    id: String!
+    name: String!
     description: String
     status: String
   }
 
   input TaskInput {
-    title: String!
+    name: String!
     description: String
+    projectId: String!
   }
 
   type TaskResult {
-    task: Task
+    id: String
+    name: String
+    description: String
+    status: String
+    finishedAt: String
   }
 
   extend type Mutation {
-    createTask(task: TaskInput): TaskResult @auth
-    deleteTask(id: ID!): Boolean @auth
-    updateTaskStatus(id: ID!, status: String!): TaskResult @auth
+    createTask(task: TaskInput): Task @auth
+    deleteTask(id: ID!): Task @auth
+    updateTaskStatus(id: ID!): TaskResult @auth
   }
 `;

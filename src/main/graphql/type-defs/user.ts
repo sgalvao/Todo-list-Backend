@@ -2,7 +2,7 @@ import { gql } from "apollo-server-express";
 
 export default gql`
   type User {
-    id: Int
+    id: String
     name: String
     email: String
   }
@@ -14,7 +14,8 @@ export default gql`
   }
 
   type UserResult {
-    user: User
+    name: String
+    email: String
     token: String
   }
 

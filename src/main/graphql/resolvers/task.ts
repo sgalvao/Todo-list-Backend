@@ -6,14 +6,17 @@ import {
 
 export default {
   Mutation: {
-    createProject: (_, { args }, { userId }) => {
-      makeCreateTask().create({ ...args, userId });
+    createTask: (_, { task }, { userId }) => {
+      console.log("🚀🚀  TASK resolver CREATE ARGS:", task);
+      return makeCreateTask().create({ ...task });
     },
-    deleteProject: (_, { args }, { userId }) => {
-      makeDeleteTask().delete({ ...args, userId });
+    deleteTask: (_, { id }, { userId }) => {
+      console.log("🚀🚀  TASK resolver DELETE ARGS:", id);
+      return makeDeleteTask().delete(id);
     },
-    updateTaskStatus: (_, { args }, { userId }) => {
-      makeUpdateTask().update({ ...args, userId });
+    updateTaskStatus: (_, { id }, { userId }) => {
+      console.log("🚀🚀  TASK resolver DELETE ARGS:", id);
+      return makeUpdateTask().update(id);
     },
   },
 };

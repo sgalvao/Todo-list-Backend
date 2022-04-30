@@ -7,23 +7,24 @@ export class DeleteProjectService {
     private readonly taskRepository: TaskRepository
   ) {}
 
-  async delete(
-    params: DeleteProjectService.Params
-  ): Promise<DeleteProjectService.Result> {
-    const hasTasks = await this.taskRepository.findByProjectId(params.id);
+  async delete(id: string): Promise<DeleteProjectService.Result> {
+    const isValidId = await this.projectRepository.findById(id);
 
-    if (hasTasks) {
-      await this.taskRepository.deleteAllByProjectId(params.id);
+    if (!isValidId) {
+      throw new Error("Project not found");
     }
 
-    const project = await this.projectRepository.delete(params.id);
+    const hasTasks = await this.taskRepository.findByProjectId(id);
+
+    if (hasTasks) {
+      await this.taskRepository.deleteAllByProjectId(id);
+    }
+
+    const project = await this.projectRepository.delete(id);
     return project;
   }
 }
 
 export namespace DeleteProjectService {
-  export type Params = {
-    id: string;
-  };
   export type Result = Project;
 }

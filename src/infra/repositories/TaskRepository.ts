@@ -8,17 +8,19 @@ export class TaskRepository {
   ): Promise<CreateTaskService.Result> {
     const task = await prisma.task.create({
       data: {
-        ...params,
+        name: params.name,
+        description: params.description,
+        projectId: params.projectId,
       },
     });
 
     return task;
   }
 
-  async delete(param: string): Promise<Task> {
+  async delete(id: string): Promise<Task> {
     const task = await prisma.task.delete({
       where: {
-        id: param,
+        id,
       },
     });
 
@@ -32,6 +34,7 @@ export class TaskRepository {
       },
       data: {
         status: "DONE",
+        finishedAt: new Date().toISOString(),
       },
     });
 

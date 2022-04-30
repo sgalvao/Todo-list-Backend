@@ -8,7 +8,8 @@ export class ProjectRepository {
   ): Promise<CreateProjectService.Result> {
     const project = await prisma.project.create({
       data: {
-        ...params,
+        name: params.name,
+        userId: params.userId,
       },
     });
     return project;
@@ -29,6 +30,16 @@ export class ProjectRepository {
 
   async delete(id: string): Promise<Project> {
     const project = await prisma.project.delete({
+      where: {
+        id,
+      },
+    });
+
+    return project;
+  }
+
+  async findById(id: string): Promise<Project> {
+    const project = await prisma.project.findUnique({
       where: {
         id,
       },
