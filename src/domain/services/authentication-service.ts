@@ -21,12 +21,12 @@ export class AuthenticationService {
       throw new Error("User or password invalid");
     }
 
-    const isValidPassowrd = await this.hashProvider.compareHash(
+    const isValidPassword = await this.hashProvider.compareHash(
       params.password,
       user.password
     );
 
-    if (!isValidPassowrd) {
+    if (!isValidPassword) {
       throw new Error("User or password invalid");
     }
 

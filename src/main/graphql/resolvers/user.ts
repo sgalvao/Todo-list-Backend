@@ -1,15 +1,10 @@
+import { makeAuthentication, makeCreateAccount } from "@/main/factories";
+
 export default {
   Query: {
-    login: () => {
-      return {
-        id: 1,
-        name: 'Divisio'
-      }
-    }
+    login: (_, args) => makeAuthentication().auth(args),
   },
   Mutation: {
-    createUser: async (_, { user }) => {
-      return user
-    }
-  }
-}
+    createUser: async (_, { user }) => makeCreateAccount().create(user),
+  },
+};

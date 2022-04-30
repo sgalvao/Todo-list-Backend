@@ -14,8 +14,11 @@ export class ProjectRepository {
     return project;
   }
 
-  async load(): Promise<Project[]> {
+  async load(userId: string): Promise<Project[]> {
     const project = await prisma.project.findMany({
+      where: {
+        userId,
+      },
       include: {
         tasks: true,
       },

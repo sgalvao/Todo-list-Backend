@@ -1,14 +1,7 @@
 import { defaultFieldResolver } from "graphql";
-import { ForbiddenError } from "apollo-server-express";
+import { AuthenticationError, ForbiddenError } from "apollo-server-express";
 import { mapSchema, getDirective, MapperKind } from "@graphql-tools/utils";
-
-const getUserByAccessToken = (accessToken) => {
-  return {
-    id: 1,
-    name: "Silvio",
-    token: accessToken,
-  };
-};
+import { makeLoadUserByToken } from "@/main/factories";
 
 export const authDirective = (schema, directiveName) => {
   return mapSchema(schema, {
@@ -20,14 +13,21 @@ export const authDirective = (schema, directiveName) => {
       )?.[0];
       if (authDirective) {
         const { resolve = defaultFieldResolver } = fieldConfig;
-        fieldConfig.resolve = function (source, args, context, info) {
+        fieldConfig.resolve = async function (source, args, context, info) {
           const accessToken = context?.req?.headers?.["authorization"];
-
-          const user = getUserByAccessToken(accessToken);
-          if (!user) {
-            throw new ForbiddenError("not authorized");
+          if (!accessToken) {
+            throw new ForbiddenError("Token not provided");
           }
-          return resolve(source, args, Object.assign(context, { user }), info);
+          const user = await makeLoadUserByToken().load(accessToken);
+          if (!user) {
+            throw new AuthenticationError("Not authorized");
+          }
+          return resolve(
+            source,
+            args,
+            Object.assign(context, { userId: user.id }),
+            info
+          );
         };
         return fieldConfig;
       }
