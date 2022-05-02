@@ -7,3 +7,4 @@ export * from "./delete-task-service";
 export * from "./delete-project-service";
 export * from "./authentication-service";
 export * from "./load-user-by-token-service";
+export * from "./update-project-service";

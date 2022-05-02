@@ -2,6 +2,7 @@ import {
   makeCreateProject,
   makeDeleteProject,
   makeLoadProject,
+  makeUpdateProject,
 } from "@/main/factories";
 
 export default {
@@ -19,6 +20,10 @@ export default {
     deleteProject: (_, { id }, { userId }) => {
       console.log("🚀🚀  project resolver ARGS:", id);
       return makeDeleteProject().delete(id);
+    },
+    updateProject: (_, { id, name }, { userId }) => {
+      console.log("🚀🚀  project resolver ARGS:", id);
+      return makeUpdateProject().update(id, name);
     },
   },
 };

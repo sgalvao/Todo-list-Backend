@@ -6,12 +6,16 @@ class DeleteProjectService {
         this.projectRepository = projectRepository;
         this.taskRepository = taskRepository;
     }
-    async delete(params) {
-        const hasTasks = await this.taskRepository.findByProjectId(params.id);
-        if (hasTasks) {
-            await this.taskRepository.deleteAllByProjectId(params.id);
+    async delete(id) {
+        const isValidId = await this.projectRepository.findById(id);
+        if (!isValidId) {
+            throw new Error("Project not found");
         }
-        const project = await this.projectRepository.delete(params.id);
+        const hasTasks = await this.taskRepository.findByProjectId(id);
+        if (hasTasks) {
+            await this.taskRepository.deleteAllByProjectId(id);
+        }
+        const project = await this.projectRepository.delete(id);
         return project;
     }
 }

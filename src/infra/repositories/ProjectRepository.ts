@@ -47,4 +47,17 @@ export class ProjectRepository {
 
     return project;
   }
+
+  async update(id: string, name: string): Promise<Project> {
+    const project = await prisma.project.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+      },
+    });
+
+    return project;
+  }
 }

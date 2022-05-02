@@ -21,7 +21,7 @@ const startApolloServer = async (app) => {
         introspection: true,
     });
     await server.start();
-    server.applyMiddleware({ app });
+    server.applyMiddleware({ app, cors: false });
 };
 exports.startApolloServer = startApolloServer;
 //# sourceMappingURL=apollo-server.js.map

@@ -17,13 +17,15 @@ export default gql`
     name: String
     email: String
     token: String
+    id: String
   }
 
-  extend type Query {
-    login(email: String!, password: String!): UserResult
+  type TokenResult {
+    id: String
   }
 
   extend type Mutation {
     createUser(user: UserInput): User
+    login(email: String!, password: String!): UserResult
   }
 `;

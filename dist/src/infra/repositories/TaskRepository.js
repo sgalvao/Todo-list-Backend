@@ -6,15 +6,17 @@ class TaskRepository {
     async create(params) {
         const task = await prisma_1.prisma.task.create({
             data: {
-                ...params,
+                name: params.name,
+                description: params.description,
+                projectId: params.projectId,
             },
         });
         return task;
     }
-    async delete(param) {
+    async delete(id) {
         const task = await prisma_1.prisma.task.delete({
             where: {
-                id: param,
+                id,
             },
         });
         return task;
@@ -26,6 +28,7 @@ class TaskRepository {
             },
             data: {
                 status: "DONE",
+                finishedAt: new Date().toISOString(),
             },
         });
         return task;

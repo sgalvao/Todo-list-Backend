@@ -6,13 +6,17 @@ class ProjectRepository {
     async create(params) {
         const project = await prisma_1.prisma.project.create({
             data: {
-                ...params,
+                name: params.name,
+                userId: params.userId,
             },
         });
         return project;
     }
-    async load() {
+    async load(userId) {
         const project = await prisma_1.prisma.project.findMany({
+            where: {
+                userId,
+            },
             include: {
                 tasks: true,
             },
@@ -23,6 +27,25 @@ class ProjectRepository {
         const project = await prisma_1.prisma.project.delete({
             where: {
                 id,
+            },
+        });
+        return project;
+    }
+    async findById(id) {
+        const project = await prisma_1.prisma.project.findUnique({
+            where: {
+                id,
+            },
+        });
+        return project;
+    }
+    async update(id, name) {
+        const project = await prisma_1.prisma.project.update({
+            where: {
+                id,
+            },
+            data: {
+                name,
             },
         });
         return project;

@@ -5,8 +5,8 @@ class LoadProjectsService {
     constructor(projectRepository) {
         this.projectRepository = projectRepository;
     }
-    async load() {
-        const project = await this.projectRepository.load();
+    async load(userId) {
+        const project = await this.projectRepository.load(userId);
         return project;
     }
 }

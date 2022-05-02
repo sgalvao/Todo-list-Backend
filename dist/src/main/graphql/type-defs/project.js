@@ -1,6 +1,7 @@
-import { gql } from "apollo-server-express";
-
-export default gql`
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const apollo_server_express_1 = require("apollo-server-express");
+exports.default = (0, apollo_server_express_1.gql) `
   type Project {
     id: ID!
     name: String!
@@ -17,7 +18,7 @@ export default gql`
   }
 
   extend type Mutation {
-    createProject(name: String): Project @auth
+    createProject(name: String): ProjectResult @auth
     deleteProject(id: ID!): Project @auth
     updateProject(id: ID!, name: String): Project @auth
   }
@@ -26,3 +27,4 @@ export default gql`
     loadProjects: [Project] @auth
   }
 `;
+//# sourceMappingURL=project.js.map

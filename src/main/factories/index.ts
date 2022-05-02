@@ -7,6 +7,7 @@ import {
   DeleteTaskService,
   LoadProjectsService,
   LoadUserByTokenService,
+  UpdateProjectService,
   UpdateTaskStatusService,
 } from "@/domain/services";
 import { HashProvider, JwtProvider } from "@/infra/providers";
@@ -84,4 +85,10 @@ export const makeLoadUserByToken = () => {
     jwtProvider
   );
   return loadUserByTokenService;
+};
+
+export const makeUpdateProject = () => {
+  const projectRepository = new ProjectRepository();
+  const updateProjectService = new UpdateProjectService(projectRepository);
+  return updateProjectService;
 };
